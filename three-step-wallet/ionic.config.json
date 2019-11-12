@@ -1,5 +1,7 @@
 {
   "name": "three-step-wallet",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
