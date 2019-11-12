@@ -10,5 +10,7 @@
 </ion-header>
 
 <ion-content [class.show-qr-scanner]="isOpen">
-  <ion-button size="large" expand="block" (click)="openScanner()">Open QR Scanner</ion-button>
+    <ion-fab-button class="call" (click)="openScanner()">
+        <ion-icon name="camera" class="icon"></ion-icon>
+    </ion-fab-button>
 </ion-content>
