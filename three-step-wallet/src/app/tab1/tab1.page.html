@@ -3,12 +3,20 @@
     <ion-title>
       Home
     </ion-title>
+    <ion-buttons slot="primary">
+      <a href="/setting">
+        <ion-button>
+          <ion-icon class="primary" slot="icon-only" name="settings"></ion-icon>
+        </ion-button>
+      </a>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <a href="/setting">setting</a>
+  <a href="/tabs/tab2">
     <ion-fab-button class="send">
       <ion-icon name="send" class="icon"></ion-icon>
     </ion-fab-button>
+  </a>
 </ion-content>

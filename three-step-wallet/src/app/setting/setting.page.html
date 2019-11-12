@@ -1,9 +1,36 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>setting</ion-title>
+    <ion-buttons slot="primary">
+        <a href="/">
+          <ion-button>
+            <ion-icon class="primary" slot="icon-only" name="home"></ion-icon>
+          </ion-button>
+        </a>
+        </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <p>test</p>
+    <ion-card class="card">
+        <ion-card-header>
+          <ion-card-title>Settings</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-item>
+                <ion-label position="stacked">Private Key <ion-text color="danger">*</ion-text></ion-label>
+                <ion-input required type="text" oninput="handleFirstNameValue(event)"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Public Key <ion-text color="danger">*</ion-text></ion-label>
+                <ion-input required type="text" oninput="handleFirstNameValue(event)"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Phone number <ion-text color="danger">*</ion-text></ion-label>
+                <ion-input required type="text" oninput="handleFirstNameValue(event)"></ion-input>
+            </ion-item>
+            <br>
+            <ion-button expand="block" type="submit" class="ion-no-margin">Create account</ion-button>
+        </ion-card-content>
+      </ion-card>
 </ion-content>
