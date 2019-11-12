@@ -1,20 +1,14 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>
-      QR Scan
-    </ion-title>
-    <ion-buttons slot="primary">
-        <a href="/setting">
-          <ion-button>
-            <ion-icon class="primary" slot="icon-only" name="settings"></ion-icon>
-          </ion-button>
-        </a>
-      </ion-buttons>
+    <ion-title>QR Scanner</ion-title>
+    <ion-buttons slot="primary" *ngIf="isOpen">
+      <ion-button slot="icon-only" (click)="closeScanner()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-    <ion-fab-button class="camera" (click)="qrscan()">
-      <ion-icon name="camera" class="icon"></ion-icon>
-    </ion-fab-button>
+<ion-content [class.show-qr-scanner]="isOpen">
+  <ion-button size="large" expand="block" (click)="openScanner()">Open QR Scanner</ion-button>
 </ion-content>
