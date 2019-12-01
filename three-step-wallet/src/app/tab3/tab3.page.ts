@@ -6,8 +6,17 @@ import { Component } from '@angular/core';
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page {
+  phoneNumber: string;
+  hrefNumber: string;
 
   constructor() { }
+
+  ionViewWillEnter() {
+    if ('phoneNumber' in localStorage) {
+      this.phoneNumber = JSON.parse(localStorage.phoneNumber);
+      this.hrefNumber =  'tel:' + this.phoneNumber;
+    }
+  }
 
 
 }

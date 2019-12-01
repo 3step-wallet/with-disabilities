@@ -24,7 +24,7 @@ export class SettingPage implements OnInit {
      this.publicKey = JSON.parse(localStorage.publicKey);
    }
    if ('phoneNumber' in localStorage) {
-     this.phoneNumber = JSON.parse(localStorage.phoneNumebr);
+     this.phoneNumber = JSON.parse(localStorage.phoneNumber);
    }
   }
 
