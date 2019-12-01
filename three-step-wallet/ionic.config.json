@@ -1,7 +1,8 @@
 {
   "name": "three-step-wallet",
   "integrations": {
-    "cordova": {}
+    "cordova": {},
+    "capacitor": {}
   },
   "type": "angular"
 }
