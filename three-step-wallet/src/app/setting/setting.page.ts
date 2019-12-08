@@ -10,6 +10,7 @@ export class SettingPage implements OnInit {
   privateKey: string;
   publicKey: string;
   phoneNumber: string;
+  hrefNumber: string;
 
   constructor() { }
 
@@ -25,6 +26,7 @@ export class SettingPage implements OnInit {
    }
    if ('phoneNumber' in localStorage) {
      this.phoneNumber = JSON.parse(localStorage.phoneNumber);
+     this.hrefNumber =  'tel:' + this.phoneNumber;
    }
   }
 
