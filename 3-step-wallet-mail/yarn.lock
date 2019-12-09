@@ -319,23 +319,23 @@
     to-fast-properties "^2.0.0"
 
 "@ionic-native/core@^5.0.0":
-  version "5.17.1"
-  resolved "https://registry.yarnpkg.com/@ionic-native/core/-/core-5.17.1.tgz#d64c68c1792a5c1907c5754aaf9d00c9f6793e43"
-  integrity sha512-mzzCSZOuJ7HbSrVdmtgzcrH4JA7H6cKCZDcFtgP14BeS9i+ceH9QFP4ZPb+096i1qETpM2Bc05AglZhS/3PqJQ==
+  version "5.18.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/core/-/core-5.18.0.tgz#8d9fafa4af1129c3fb433dc2db567fbb791ef38a"
+  integrity sha512-c4UN2h90kJ6s0bHFDe73nDPa0ydR5zhzV1oRxdsA7QItmeeZYgizexL01Lvpg01UaR9JHqBg1KHQJuT8l5k01g==
   dependencies:
     "@types/cordova" latest
 
 "@ionic-native/splash-screen@^5.0.0":
-  version "5.17.1"
-  resolved "https://registry.yarnpkg.com/@ionic-native/splash-screen/-/splash-screen-5.17.1.tgz#03dde33d01e3936467ab8b9264f0fc6fa3e97345"
-  integrity sha512-fNjKyZ6UeP4qVpUybZfhSLn6XXJwarFPSS/bCxbOpXti1NQ5dKz+UVppDchKF8IrGjvM8yKlSgkz0iERB61m4g==
+  version "5.18.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/splash-screen/-/splash-screen-5.18.0.tgz#377c74d601ea344ac42b0c000b433d7113055d98"
+  integrity sha512-65B9b00A13CKPSw7TdcpIGUsfQsadPKKCd6r54+e5etkG0v1wYHCSHbPqZhU2MXEYnblMubIPVK1ER/iYmiBow==
   dependencies:
     "@types/cordova" latest
 
 "@ionic-native/status-bar@^5.0.0":
-  version "5.17.1"
-  resolved "https://registry.yarnpkg.com/@ionic-native/status-bar/-/status-bar-5.17.1.tgz#8a6cbe30eacaf315ace142e0b1cc02326117f097"
-  integrity sha512-RaccJY1A2lMugg3vIzG3/HZ6NrYW4XcFLG9qxJMLrRxLlsNv/F2L/MznJFJL31Tl+cOm5L7BaQePeWhcQPZhpg==
+  version "5.18.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/status-bar/-/status-bar-5.18.0.tgz#a8f9c9789e7ef9496abce83bde1ecf43d6be7579"
+  integrity sha512-XZPcHdj482jjj5E7zuybr0M8KwTA3bbpnA6bD9GY8G/f7l/ncJ0oPPdU1uWms/FWhwma5euo3SUwFjftGMMDNA==
   dependencies:
     "@types/cordova" latest
 
@@ -1867,9 +1867,9 @@ copy-webpack-plugin@5.0.3:
     webpack-log "^2.0.0"
 
 core-js-pure@^3.0.0:
-  version "3.4.7"
-  resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.4.7.tgz#c998e1892da9949200c7452cbd33c0df95be9f54"
-  integrity sha512-Am3uRS8WCdTFA3lP7LtKR0PxgqYzjAMGKXaZKSNSC/8sqU0Wfq8R/YzoRs2rqtOVEunfgH+0q3O0BKOg0AvjPw==
+  version "3.4.8"
+  resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.4.8.tgz#a4415834383784e81974cd34321daf36a6d2366e"
+  integrity sha512-K9iPNbLDZ0Epojwd8J3lhodmrLHYvxb07H3DaFme1ne4TIlFq/ufiyPC40rc3OX6NCaVa0zaSu+VV6BVDR2wiA==
 
 core-js@3.1.4:
   version "3.1.4"
@@ -1877,9 +1877,9 @@ core-js@3.1.4:
   integrity sha512-YNZN8lt82XIMLnLirj9MhKDFZHalwzzrL9YLt6eb0T5D0EDl4IQ90IGkua8mHbnxNrkj1d8hbdizMc0Qmg1WnQ==
 
 core-js@^2.2.0, core-js@^2.4.0, core-js@^2.5.4:
-  version "2.6.10"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.10.tgz#8a5b8391f8cc7013da703411ce5b585706300d7f"
-  integrity sha512-I39t74+4t+zau64EN1fE5v2W31Adtc/REhzWN+gWRRXg6WH5qAsZm62DHpQ1+Yhe4047T55jvzz7MUqF/dBBlA==
+  version "2.6.11"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.11.tgz#38831469f9922bded8ee21c9dc46985e0399308c"
+  integrity sha512-5wjnpaT/3dV+XB4borEsnAYQchn00XSgTAWKDkEqv+K8KevjbzmofK6hfJ9TZIlpj2N0xQpazy7PiRQiWHqzWg==
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -5892,9 +5892,9 @@ serialize-javascript@^1.7.0:
   integrity sha512-0Vb/54WJ6k5v8sSWN09S0ora+Hnr+cX40r9F170nT+mSkaxltoE/7R3OrIdBSUv1OoiobH1QoWQbCnAO+e8J1A==
 
 serialize-javascript@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-2.1.1.tgz#952907a04a3e3a75af7f73d92d15e233862048b2"
-  integrity sha512-MPLPRpD4FNqWq9tTIjYG5LesFouDhdyH0EPY3gVK4DRD5+g4aDqdNSzLIwceulo3Yj+PL1bPh6laE5+H6LTcrQ==
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-2.1.2.tgz#ecec53b0e0317bdc95ef76ab7074b7384785fa61"
+  integrity sha512-rs9OggEUF0V4jUSecXazOYsLfu7OGK2qIn3c7IPBiffz32XniEp/TX9Xmc9LQfK2nQ2QKHvZ2oygKUGU0lG4jQ==
 
 serve-index@^1.9.1:
   version "1.9.1"
@@ -6767,9 +6767,9 @@ typescript@3.4.5, typescript@~3.4.3:
   integrity sha512-YycBxUb49UUhdNMU5aJ7z5Ej2XGmaIBL0x34vZ82fn3hGvD+bgrMrVDpatgz2f7YxUMJxMkbWxJZeAvDxVe7Vw==
 
 uglify-js@^3.1.4:
-  version "3.7.1"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.7.1.tgz#35c7de17971a4aa7689cd2eae0a5b39bb838c0c5"
-  integrity sha512-pnOF7jY82wdIhATVn87uUY/FHU+MDUdPLkmGFvGoclQmeu229eTkbG5gjGGBi3R7UuYYSEeYXY/TTY5j2aym2g==
+  version "3.7.2"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.7.2.tgz#cb1a601e67536e9ed094a92dd1e333459643d3f9"
+  integrity sha512-uhRwZcANNWVLrxLfNFEdltoPNhECUR3lc+UdJoG9CBpMcSnKyWA94tc3eAujB1GcMY5Uwq8ZMp4qWpxWYDQmaA==
   dependencies:
     commander "~2.20.3"
     source-map "~0.6.1"
