@@ -1,5 +1,8 @@
 {
   "name": "3-step-wallet-mail",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
   "type": "angular"
 }
