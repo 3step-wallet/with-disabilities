@@ -32,17 +32,30 @@ export class Tab2Page implements OnInit {
   ngOnInit() {
   }
 
-  startScanner() {
+  ionViewWillEnter() {
+    if ('privateKey' in localStorage) {
+      this.privateKey = JSON.parse(localStorage.privateKey);
+    }
+    if ('publicKey' in localStorage) {
+      this.publicKey = JSON.parse(localStorage.publicKey);
+    }
+   }
 
+  startScanner() {
     this.qrScanner.prepare()
       .then((status: QRScannerStatus) => {
         if (status.authorized) {
-
           this.isOpen = true;
 
           // start scanning
           const scanSub = this.qrScanner.scan().subscribe((text: string) => {
             console.log('Scanned something', text);
+            if (text !== '') {
+              const qrJson = JSON.parse(text);
+              console.log(text);
+              console.log(qrJson.data.msg);
+              this.sendMultisig(qrJson);
+            }
 
             this.isOpen = false;
             this.qrScanner.hide().then();
