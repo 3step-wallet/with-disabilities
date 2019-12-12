@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SMS } from '@ionic-native/sms/ngx';
 
 @Component({
   selector: 'app-send-mail',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SendMailPage implements OnInit {
 
-  constructor() { }
+  constructor(private sms: SMS) { }
 
   ngOnInit() {
   }
 
+  sendMessage() {
+    this.sms.send('08061341310', 'Hello world!');
+  }
 }
