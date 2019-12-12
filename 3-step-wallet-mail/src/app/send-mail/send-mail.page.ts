@@ -13,7 +13,7 @@ export class SendMailPage implements OnInit {
   ngOnInit() {
   }
 
-  sendMessage() {
+  sendSMS() {
     this.sms.send('08061341310', 'Hello world!');
   }
 }
