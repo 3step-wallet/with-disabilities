@@ -7,6 +7,8 @@ import { SMS } from '@ionic-native/sms/ngx';
   styleUrls: ['./send-mail.page.scss'],
 })
 export class SendMailPage implements OnInit {
+  phoneNumber: string;
+  hrefNumber: string;
 
   constructor(private sms: SMS) { }
 
@@ -15,5 +17,12 @@ export class SendMailPage implements OnInit {
 
   sendSMS() {
     this.sms.send('08061341310', 'Hello world!');
+  }
+
+  ionViewWillEnter() {
+   if ('phoneNumber' in localStorage) {
+     this.phoneNumber = JSON.parse(localStorage.phoneNumber);
+     this.hrefNumber = 'sms:' + this.phoneNumber;
+   }
   }
 }
