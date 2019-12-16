@@ -10,6 +10,7 @@ import {
   TransactionHttp,
   TransferTransaction,
 } from 'nem2-sdk';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class Tab2Page {
 
   constructor(
     private qrScanner: QRScanner,
+    private router: Router
   ) {
   }
 
@@ -58,6 +60,7 @@ export class Tab2Page {
             this.isOpen = false;
             this.qrScanner.hide().then();
             scanSub.unsubscribe();
+            this.router.navigateByUrl('/tab3');
           });
 
           this.qrScanner.show().then();
