@@ -60,7 +60,7 @@ export class Tab2Page implements OnInit {
             this.isOpen = false;
             this.qrScanner.hide().then();
             scanSub.unsubscribe();
-            this.router.navigateByUrl('/tab1');
+            this.router.navigateByUrl('/send-mail');
           });
 
           this.qrScanner.show().then();
