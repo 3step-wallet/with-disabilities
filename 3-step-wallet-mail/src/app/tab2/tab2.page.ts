@@ -106,16 +106,18 @@ export class Tab2Page implements OnInit {
       NetworkType.MIJIN_TEST);
 
     const privateKey = this.privateKey;
-    const account = Account.createFromPrivateKey(privateKey, NetworkType.MIJIN_TEST);
-    const networkGenerationHash = 'C053E2FFF5BD10D563962B44919D1F3E51D15BEA4602EB4CDB78BF3C211FF030';
+    const account = Account.createFromPrivateKey(privateKey, NetworkType.TEST_NET);
+    const networkGenerationHash = '53F0604E403333BAD330503C196FF435A1AF6A4C166F8B967C6E1716D959ED34';
 
     const signedTransaction = account.sign(transferTransaction, networkGenerationHash);
 
 
-    const transactionHttp = new TransactionHttp('http://ec2-18-191-249-192.us-east-2.compute.amazonaws.com:3000');
+    const transactionHttp = new TransactionHttp('http://ec2-3-136-106-135.us-east-2.compute.amazonaws.com:3000');
     transactionHttp
         .announce(signedTransaction)
         .subscribe(x => console.log(x), err => console.error(err));
+
+    console.log(signedTransaction.hash);
 
 
   }
