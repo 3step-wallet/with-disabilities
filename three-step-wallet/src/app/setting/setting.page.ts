@@ -34,6 +34,9 @@ export class SettingPage implements OnInit {
     localStorage.privateKey = JSON.stringify(this.privateKey);
     localStorage.publicKey = JSON.stringify(this.publicKey);
     localStorage.phoneNumber = JSON.stringify(this.phoneNumber);
+    console.log(localStorage.privateKey);
+    console.log(localStorage.publicKey);
+    console.log(localStorage.phoneNumber);
   }
 
 }
