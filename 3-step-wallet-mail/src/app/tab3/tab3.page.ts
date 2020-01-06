@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page implements OnInit {
-  title = 'アカウントの設定';
+  title = 'Settings Account';
   privateKey: string;
   publicKey: string;
   phoneNumber: string;
@@ -34,6 +34,9 @@ export class Tab3Page implements OnInit {
     localStorage.privateKey = JSON.stringify(this.privateKey);
     localStorage.publicKey = JSON.stringify(this.publicKey);
     localStorage.phoneNumber = JSON.stringify(this.phoneNumber);
+    console.log(localStorage.privateKey);
+    console.log(localStorage.publicKey);
+    console.log(localStorage.phoneNumber);
   }
 
 }
