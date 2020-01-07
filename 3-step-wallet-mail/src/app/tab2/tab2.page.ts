@@ -4,11 +4,13 @@ import {
   Account,
   Address,
   Deadline,
-  NetworkCurrencyMosaic,
+  Mosaic,
+  MosaicId,
   NetworkType,
   PlainMessage,
   TransactionHttp,
   TransferTransaction,
+  UInt64,
 } from 'nem2-sdk';
 import { Router } from '@angular/router';
 
@@ -97,22 +99,27 @@ export class Tab2Page implements OnInit {
     const message: string = qrContent.data.msg;
 
     const recipientAddress = Address.createFromRawAddress(toAddr);
+    const networkType = NetworkType.TEST_NET;
+    const networkCurrencyMosaicId = new MosaicId('75AF035421401EF0');
+    const networkCurrencyDivisibility = 6;
 
     const transferTransaction = TransferTransaction.create(
       Deadline.create(),
       recipientAddress,
-      [NetworkCurrencyMosaic.createRelative(amount)],
+      [new Mosaic (networkCurrencyMosaicId,
+        UInt64.fromUint(10 * Math.pow(10, networkCurrencyDivisibility)))],
       PlainMessage.create(message),
-      NetworkType.MIJIN_TEST);
+      networkType,
+      UInt64.fromUint(2000000));
 
     const privateKey = this.privateKey;
-    const account = Account.createFromPrivateKey(privateKey, NetworkType.TEST_NET);
+    const account = Account.createFromPrivateKey(privateKey, networkType);
     const networkGenerationHash = 'CC42AAD7BD45E8C276741AB2524BC30F5529AF162AD12247EF9A98D6B54A385B';
 
     const signedTransaction = account.sign(transferTransaction, networkGenerationHash);
 
-
-    const transactionHttp = new TransactionHttp('https://jp5.nemesis.land:3001/');
+    const nodeUrl = 'https://jp5.nemesis.land:3001/';
+    const transactionHttp = new TransactionHttp(nodeUrl);
     transactionHttp
         .announce(signedTransaction)
         .subscribe(x => console.log(x), err => console.error(err));
