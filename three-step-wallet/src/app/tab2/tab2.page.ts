@@ -109,13 +109,13 @@ export class Tab2Page {
 
     const privateKey = this.privateKey;
     const account = Account.createFromPrivateKey(privateKey, NetworkType.MIJIN_TEST);
-    const networkGenerationHash = 'C053E2FFF5BD10D563962B44919D1F3E51D15BEA4602EB4CDB78BF3C211FF030';
+    const networkGenerationHash = 'CC42AAD7BD45E8C276741AB2524BC30F5529AF162AD12247EF9A98D6B54A385B';
 
     const signedTransaction = account.sign(transferTransaction, networkGenerationHash);
     /* end block 02 */
 
     /* start block 03 */
-    const transactionHttp = new TransactionHttp('http://ec2-18-191-249-192.us-east-2.compute.amazonaws.com:3000');
+    const transactionHttp = new TransactionHttp('https://jp5.nemesis.land:3001/');
     transactionHttp
         .announce(signedTransaction)
         .subscribe(x => console.log(x), err => console.error(err));
