@@ -11,6 +11,8 @@ import { AppComponent } from './app.component';
 
 import { SMS } from '@ionic-native/sms/ngx';
 
+import { QRScanner } from '@ionic-native/qr-scanner/ngx';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -19,6 +21,7 @@ import { SMS } from '@ionic-native/sms/ngx';
     StatusBar,
     SplashScreen,
     SMS,
+    QRScanner,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
