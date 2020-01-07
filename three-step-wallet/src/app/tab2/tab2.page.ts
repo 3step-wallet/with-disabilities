@@ -1,24 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import {
   Account,
   Address,
   Deadline,
-  NetworkCurrencyMosaic,
+  Mosaic,
+  MosaicId,
   NetworkType,
   PlainMessage,
   TransactionHttp,
   TransferTransaction,
+  UInt64,
 } from 'nem2-sdk';
 import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
-export class Tab2Page {
+export class Tab2Page implements OnInit {
   isOpen = false;
   scannedData: {};
   privateKey: string;
@@ -26,8 +27,11 @@ export class Tab2Page {
 
   constructor(
     private qrScanner: QRScanner,
-    private router: Router
+    private router: Router,
   ) {
+  }
+
+  ngOnInit() {
   }
 
   ionViewWillEnter() {
@@ -39,10 +43,9 @@ export class Tab2Page {
     }
    }
 
-  openScanner() {
+  startScanner() {
     this.qrScanner.prepare()
       .then((status: QRScannerStatus) => {
-        console.log(status);
         if (status.authorized) {
           this.isOpen = true;
 
@@ -50,8 +53,7 @@ export class Tab2Page {
           const scanSub = this.qrScanner.scan().subscribe((text: string) => {
             console.log('Scanned something', text);
             if (text !== '') {
-              // tslint:disable-next-line:prefer-const
-              let qrJson = JSON.parse(text);
+              const qrJson = JSON.parse(text);
               console.log(text);
               console.log(qrJson.data.msg);
               this.sendMultisig(qrJson);
@@ -60,7 +62,7 @@ export class Tab2Page {
             this.isOpen = false;
             this.qrScanner.hide().then();
             scanSub.unsubscribe();
-            this.router.navigateByUrl('/tab3');
+            this.router.navigateByUrl('/tabs/tab3');
           });
 
           this.qrScanner.show().then();
@@ -75,7 +77,7 @@ export class Tab2Page {
           // permission was denied, but not permanently. You can ask for permission again at a later time.
         }
       })
-      .catch((e: any) => console.error(e));
+      .catch((e: any) => console.log('Error is', e));
   }
 
   async closeScanner() {
@@ -89,35 +91,42 @@ export class Tab2Page {
   }
 
   async sendMultisig(qrContent: any) {
-    // ここでlocalstorageに保存した内容をロード:TODO
     console.log(this.privateKey);
     console.log(qrContent.data.msg);
 
-    // QRで読み取った情報を代入
     const toAddr: string = qrContent.data.addr;
     const amount: number = qrContent.data.amount / Math.pow(10, 6);
     const message: string = qrContent.data.msg;
 
     const recipientAddress = Address.createFromRawAddress(toAddr);
+    const networkType = NetworkType.TEST_NET;
+    const networkCurrencyMosaicId = new MosaicId('75AF035421401EF0');
+    const networkCurrencyDivisibility = 6;
 
     const transferTransaction = TransferTransaction.create(
       Deadline.create(),
       recipientAddress,
-      [NetworkCurrencyMosaic.createRelative(amount)],
+      [new Mosaic (networkCurrencyMosaicId,
+        UInt64.fromUint(10 * Math.pow(10, networkCurrencyDivisibility)))],
       PlainMessage.create(message),
-      NetworkType.MIJIN_TEST);
+      networkType,
+      UInt64.fromUint(2000000));
 
     const privateKey = this.privateKey;
-    const account = Account.createFromPrivateKey(privateKey, NetworkType.MIJIN_TEST);
+    const account = Account.createFromPrivateKey(privateKey, networkType);
     const networkGenerationHash = 'CC42AAD7BD45E8C276741AB2524BC30F5529AF162AD12247EF9A98D6B54A385B';
 
     const signedTransaction = account.sign(transferTransaction, networkGenerationHash);
-    /* end block 02 */
 
-    /* start block 03 */
-    const transactionHttp = new TransactionHttp('https://jp5.nemesis.land:3001/');
+    const nodeUrl = 'https://jp5.nemesis.land:3001/';
+    const transactionHttp = new TransactionHttp(nodeUrl);
     transactionHttp
         .announce(signedTransaction)
         .subscribe(x => console.log(x), err => console.error(err));
+
+    console.log(signedTransaction.hash);
+
+
   }
+
 }
