@@ -33,7 +33,7 @@
     "cordova-plugin-camera": "^4.1.0",
     "cordova-plugin-qrscanner": "^3.0.1",
     "core-js": "^2.5.4",
-    "nem2-sdk": "^0.14.4",
+    "nem2-sdk": "^0.16.2",
     "patch-package": "^6.2.0",
     "postinstall-postinstall": "^2.0.0",
     "rxjs": "^6.5.3",
