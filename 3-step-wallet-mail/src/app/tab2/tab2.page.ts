@@ -107,7 +107,7 @@ export class Tab2Page implements OnInit {
       Deadline.create(),
       recipientAddress,
       [new Mosaic (networkCurrencyMosaicId,
-        UInt64.fromUint(10 * Math.pow(10, networkCurrencyDivisibility)))],
+        UInt64.fromUint(amount * Math.pow(10, networkCurrencyDivisibility)))],
       PlainMessage.create(message),
       networkType,
       UInt64.fromUint(2000000));
