@@ -119,8 +119,8 @@ export class Tab2Page implements OnInit {
       Deadline.create(),
       recipientAddress,
       [new Mosaic (networkCurrencyMosaicId,
-        UInt64.fromUint(amount * Math.pow(10, networkCurrencyDivisibility)))],
-      PlainMessage.create(message),
+        UInt64.fromUint(100 * Math.pow(10, networkCurrencyDivisibility)))],
+      PlainMessage.create('hello'),
       networkType);
 
     const aggregateTransaction = AggregateTransaction.createBonded(
@@ -144,7 +144,7 @@ export class Tab2Page implements OnInit {
     const signedHashLockTransaciton = cosignatoryAccount.sign(hashLockTransaction, networkGenerationHash);
 
     const nodeUrl = 'https://jp5.nemesis.land:3001/';
-    const wsEndpoint = nodeUrl.replace('https', 'ws');
+    const wsEndpoint = nodeUrl.replace('https', 'wss');
 
     const listener = new Listener(wsEndpoint, WebSocket);
     const transactionService = new TransactionService(nodeUrl);
