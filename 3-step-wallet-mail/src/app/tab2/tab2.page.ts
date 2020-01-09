@@ -15,7 +15,8 @@ import {
   TransactionService,
   TransferTransaction,
   UInt64,
-  NetworkCurrencyMosaic,
+  TransactionHttp,
+  ReceiptHttp
 } from 'nem2-sdk';
 import { Router } from '@angular/router';
 
@@ -119,14 +120,15 @@ export class Tab2Page implements OnInit {
       Deadline.create(),
       recipientAddress,
       [new Mosaic (networkCurrencyMosaicId,
-        UInt64.fromUint(100 * Math.pow(10, networkCurrencyDivisibility)))],
-      PlainMessage.create('hello'),
+        UInt64.fromUint(amount * Math.pow(10, networkCurrencyDivisibility)))],
+      PlainMessage.create(message),
       networkType);
 
     const aggregateTransaction = AggregateTransaction.createBonded(
       Deadline.create(),
       [transferTransaction.toAggregate(multisigAccount)],
-      networkType);
+      networkType,
+      []).setMaxFee(200);
 
     const networkGenerationHash = 'CC42AAD7BD45E8C276741AB2524BC30F5529AF162AD12247EF9A98D6B54A385B';
     const signedTransaction = cosignatoryAccount.sign(aggregateTransaction, networkGenerationHash);
@@ -135,22 +137,24 @@ export class Tab2Page implements OnInit {
     const hashLockTransaction = HashLockTransaction.create(
       Deadline.create(),
       new Mosaic (networkCurrencyMosaicId,
-        UInt64.fromUint(amount * Math.pow(10, networkCurrencyDivisibility))),
+        UInt64.fromUint(10 * Math.pow(10, networkCurrencyDivisibility))),
       UInt64.fromUint(480),
       signedTransaction,
       networkType,
       UInt64.fromUint(2000000));
 
-    const signedHashLockTransaciton = cosignatoryAccount.sign(hashLockTransaction, networkGenerationHash);
+    const signedHashLockTransaction = cosignatoryAccount.sign(hashLockTransaction, networkGenerationHash);
 
     const nodeUrl = 'https://jp5.nemesis.land:3001/';
     const wsEndpoint = nodeUrl.replace('https', 'wss');
 
     const listener = new Listener(wsEndpoint, WebSocket);
-    const transactionService = new TransactionService(nodeUrl);
+    const transactionHttp = new TransactionHttp(nodeUrl);
+    const receiptHttp = new ReceiptHttp(nodeUrl);
+    const transactionService = new TransactionService(transactionHttp, receiptHttp);
 
     listener.open().then(() => {
-      transactionService.announceHashLockAggregateBonded(signedHashLockTransaciton, signedTransaction, listener);
+      transactionService.announceHashLockAggregateBonded(signedHashLockTransaction, signedTransaction, listener);
     });
 
   }

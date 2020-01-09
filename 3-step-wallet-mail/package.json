@@ -32,7 +32,7 @@
     "cordova-plugin-qrscanner": "^3.0.1",
     "cordova-plugin-statusbar": "^2.4.2",
     "core-js": "^2.5.4",
-    "nem2-sdk": "^0.16.0",
+    "nem2-sdk": "^0.16.2",
     "rxjs": "^6.5.3",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
