@@ -3,14 +3,20 @@ import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import {
   Account,
   Address,
+  AggregateTransaction,
   Deadline,
+  HashLockTransaction,
+  Listener,
   Mosaic,
   MosaicId,
   NetworkType,
   PlainMessage,
-  TransactionHttp,
+  PublicAccount,
+  TransactionService,
   TransferTransaction,
   UInt64,
+  TransactionHttp,
+  ReceiptHttp
 } from 'nem2-sdk';
 import { Router } from '@angular/router';
 
@@ -98,8 +104,19 @@ export class Tab2Page implements OnInit {
     const amount: number = qrContent.data.amount / Math.pow(10, 6);
     const message: string = qrContent.data.msg;
 
-    const recipientAddress = Address.createFromRawAddress(toAddr);
     const networkType = NetworkType.TEST_NET;
+    const cosignatoryPrivateKey = this.privateKey;
+    const cosignatoryAccount = Account.createFromPrivateKey(cosignatoryPrivateKey, networkType);
+
+    console.log(cosignatoryAccount);
+
+    const multisigAccountPublicKey = this.publicKey;
+    const multisigAccount = PublicAccount.createFromPublicKey(multisigAccountPublicKey, networkType);
+
+    console.log(multisigAccount);
+
+    const recipientAddress = Address.createFromRawAddress(toAddr);
+
     const networkCurrencyMosaicId = new MosaicId('75AF035421401EF0');
     const networkCurrencyDivisibility = 6;
 
@@ -109,23 +126,46 @@ export class Tab2Page implements OnInit {
       [new Mosaic (networkCurrencyMosaicId,
         UInt64.fromUint(amount * Math.pow(10, networkCurrencyDivisibility)))],
       PlainMessage.create(message),
+      networkType);
+
+    const aggregateTransaction = AggregateTransaction.createBonded(
+      Deadline.create(),
+      [transferTransaction.toAggregate(multisigAccount)],
+      networkType,
+      []).setMaxFee(200);
+
+    const networkGenerationHash = 'CC42AAD7BD45E8C276741AB2524BC30F5529AF162AD12247EF9A98D6B54A385B';
+    const signedTransaction = cosignatoryAccount.sign(aggregateTransaction, networkGenerationHash);
+    console.log(signedTransaction.hash);
+
+    const hashLockTransaction = HashLockTransaction.create(
+      Deadline.create(),
+      new Mosaic (networkCurrencyMosaicId,
+        UInt64.fromUint(10 * Math.pow(10, networkCurrencyDivisibility))),
+      UInt64.fromUint(480),
+      signedTransaction,
       networkType,
       UInt64.fromUint(2000000));
 
-    const privateKey = this.privateKey;
-    const account = Account.createFromPrivateKey(privateKey, networkType);
-    const networkGenerationHash = 'CC42AAD7BD45E8C276741AB2524BC30F5529AF162AD12247EF9A98D6B54A385B';
+    const signedHashLockTransaction = cosignatoryAccount.sign(hashLockTransaction, networkGenerationHash);
 
-    const signedTransaction = account.sign(transferTransaction, networkGenerationHash);
+    const nodeUrl = 'http://api-harvest-20.ap-southeast-1.nemtech.network:3000';
+    const wsEndpoint = nodeUrl.replace('http', 'ws');
 
-    const nodeUrl = 'https://jp5.nemesis.land:3001/';
+    const listener = new Listener(wsEndpoint, WebSocket);
     const transactionHttp = new TransactionHttp(nodeUrl);
-    transactionHttp
-        .announce(signedTransaction)
-        .subscribe(x => console.log(x), err => console.error(err));
+    const receiptHttp = new ReceiptHttp(nodeUrl);
+    const transactionService = new TransactionService(transactionHttp, receiptHttp);
 
-    console.log(signedTransaction.hash);
-
+    listener.open().then(() => {
+      transactionService.announceHashLockAggregateBonded(signedHashLockTransaction, signedTransaction, listener).subscribe(x => {
+        console.log(x);
+        listener.close();
+      }, err => {
+        console.error(err);
+        listener.close();
+      });
+    });
 
   }
 
