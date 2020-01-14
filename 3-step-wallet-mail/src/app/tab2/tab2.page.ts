@@ -100,7 +100,7 @@ export class Tab2Page implements OnInit {
     console.log(this.privateKey);
     console.log(qrContent.data.msg);
 
-    const toAddr: string = qrContent.data.addr;
+    const toAddr = 'TDONBHXA6T55L7BDZ2VRECPDA54Z2NZDE7RR4CP7';
     const amount: number = qrContent.data.amount / Math.pow(10, 6);
     const message: string = qrContent.data.msg;
 
