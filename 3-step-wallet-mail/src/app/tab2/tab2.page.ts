@@ -108,8 +108,12 @@ export class Tab2Page implements OnInit {
     const cosignatoryPrivateKey = this.privateKey;
     const cosignatoryAccount = Account.createFromPrivateKey(cosignatoryPrivateKey, networkType);
 
+    console.log(cosignatoryAccount);
+
     const multisigAccountPublicKey = this.publicKey;
     const multisigAccount = PublicAccount.createFromPublicKey(multisigAccountPublicKey, networkType);
+
+    console.log(multisigAccount);
 
     const recipientAddress = Address.createFromRawAddress(toAddr);
 
@@ -145,8 +149,8 @@ export class Tab2Page implements OnInit {
 
     const signedHashLockTransaction = cosignatoryAccount.sign(hashLockTransaction, networkGenerationHash);
 
-    const nodeUrl = 'https://jp5.nemesis.land:3001/';
-    const wsEndpoint = nodeUrl.replace('https', 'wss');
+    const nodeUrl = 'http://api-harvest-20.ap-southeast-1.nemtech.network:3000';
+    const wsEndpoint = nodeUrl.replace('http', 'ws');
 
     const listener = new Listener(wsEndpoint, WebSocket);
     const transactionHttp = new TransactionHttp(nodeUrl);
@@ -154,7 +158,13 @@ export class Tab2Page implements OnInit {
     const transactionService = new TransactionService(transactionHttp, receiptHttp);
 
     listener.open().then(() => {
-      transactionService.announceHashLockAggregateBonded(signedHashLockTransaction, signedTransaction, listener);
+      transactionService.announceHashLockAggregateBonded(signedHashLockTransaction, signedTransaction, listener).subscribe(x => {
+        console.log(x);
+        listener.close();
+      }, err => {
+        console.error(err);
+        listener.close();
+      });
     });
 
   }
