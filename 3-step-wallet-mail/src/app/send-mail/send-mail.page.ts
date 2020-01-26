@@ -10,6 +10,7 @@ export class SendMailPage implements OnInit {
   phoneNumber: string;
   hrefNumber: string;
 
+
   constructor(private sms: SMS) { }
 
   ngOnInit() {

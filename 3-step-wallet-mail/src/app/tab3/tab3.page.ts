@@ -17,23 +17,19 @@ export class Tab3Page implements OnInit {
   ngOnInit() {
   }
 
-  ionViewCanEnter() {
-   if ('privateKey' in localStorage) {
-     this.privateKey = JSON.parse(localStorage.privateKey);
-   }
-   if ('publicKey' in localStorage) {
-     this.publicKey = JSON.parse(localStorage.publicKey);
-   }
-   if ('phoneNumber' in localStorage) {
-     this.phoneNumber = JSON.parse(localStorage.phoneNumber);
-     this.hrefNumber = 'tel:' + this.phoneNumber;
-   }
+  ionViewWillEnter() {
+     this.privateKey = localStorage.getItem('privateKey');
+     this.publicKey = localStorage.getItem('publicKey');
+     this.phoneNumber = localStorage.getItem('phoneNumber');
+     if (this.phoneNumber) {
+      this.hrefNumber = 'tel:' + this.phoneNumber;
+     }
   }
 
   addInfo() {
-    localStorage.privateKey = JSON.stringify(this.privateKey);
-    localStorage.publicKey = JSON.stringify(this.publicKey);
-    localStorage.phoneNumber = JSON.stringify(this.phoneNumber);
+    localStorage.setItem('privateKey', this.privateKey);
+    localStorage.setItem('publicKey', this.publicKey);
+    localStorage.setItem('phoneNumber', this.phoneNumber);
     console.log(localStorage.privateKey);
     console.log(localStorage.publicKey);
     console.log(localStorage.phoneNumber);

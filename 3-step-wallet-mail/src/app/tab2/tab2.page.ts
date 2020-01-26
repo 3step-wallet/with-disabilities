@@ -6,7 +6,6 @@ import {
   AggregateTransaction,
   Deadline,
   HashLockTransaction,
-  Listener,
   Mosaic,
   MosaicId,
   NetworkType,
@@ -15,9 +14,8 @@ import {
   TransactionService,
   TransferTransaction,
   UInt64,
-  TransactionHttp,
-  ReceiptHttp
 } from 'nem2-sdk';
+import {RepositoryFactoryHttp} from 'nem2-sdk/dist/src/infrastructure/RepositoryFactoryHttp';
 import { Router } from '@angular/router';
 
 @Component({
@@ -41,11 +39,11 @@ export class Tab2Page implements OnInit {
   }
 
   ionViewWillEnter() {
-    if ('privateKey' in localStorage) {
-      this.privateKey = JSON.parse(localStorage.privateKey);
+    if (localStorage.getItem('privateKey')) {
+      this.privateKey = localStorage.getItem('privateKey');
     }
-    if ('publicKey' in localStorage) {
-      this.publicKey = JSON.parse(localStorage.publicKey);
+    if (localStorage.getItem('publicKey')) {
+      this.publicKey = localStorage.getItem('publicKey');
     }
    }
 
@@ -57,11 +55,11 @@ export class Tab2Page implements OnInit {
 
           // start scanning
           const scanSub = this.qrScanner.scan().subscribe((text: string) => {
-            console.log('Scanned something', text);
+            console.log('1', text);
             if (text !== '') {
               const qrJson = JSON.parse(text);
-              console.log(text);
-              console.log(qrJson.data.msg);
+              console.log('2', text);
+              console.log('3', qrJson.data.msg);
               this.sendMultisig(qrJson);
             }
 
@@ -97,8 +95,8 @@ export class Tab2Page implements OnInit {
   }
 
   async sendMultisig(qrContent: any) {
-    console.log(this.privateKey);
-    console.log(qrContent.data.msg);
+    console.log('5', this.privateKey);
+    console.log('6', qrContent.data.msg);
 
     const toAddr = 'TDONBHXA6T55L7BDZ2VRECPDA54Z2NZDE7RR4CP7';
     const amount: number = qrContent.data.amount / Math.pow(10, 6);
@@ -108,12 +106,12 @@ export class Tab2Page implements OnInit {
     const cosignatoryPrivateKey = this.privateKey;
     const cosignatoryAccount = Account.createFromPrivateKey(cosignatoryPrivateKey, networkType);
 
-    console.log(cosignatoryAccount);
+    console.log('7', cosignatoryAccount);
 
     const multisigAccountPublicKey = this.publicKey;
     const multisigAccount = PublicAccount.createFromPublicKey(multisigAccountPublicKey, networkType);
 
-    console.log(multisigAccount);
+    console.log('8', multisigAccount);
 
     const recipientAddress = Address.createFromRawAddress(toAddr);
 
@@ -132,11 +130,11 @@ export class Tab2Page implements OnInit {
       Deadline.create(),
       [transferTransaction.toAggregate(multisigAccount)],
       networkType,
-      []).setMaxFee(200);
+      []).setMaxFee(2000);
 
     const networkGenerationHash = 'CC42AAD7BD45E8C276741AB2524BC30F5529AF162AD12247EF9A98D6B54A385B';
     const signedTransaction = cosignatoryAccount.sign(aggregateTransaction, networkGenerationHash);
-    console.log(signedTransaction.hash);
+    console.log('9', signedTransaction.hash);
 
     const hashLockTransaction = HashLockTransaction.create(
       Deadline.create(),
@@ -147,24 +145,43 @@ export class Tab2Page implements OnInit {
       networkType,
       UInt64.fromUint(2000000));
 
+    console.log('10', hashLockTransaction);
+
     const signedHashLockTransaction = cosignatoryAccount.sign(hashLockTransaction, networkGenerationHash);
 
-    const nodeUrl = 'http://api-harvest-20.ap-southeast-1.nemtech.network:3000';
-    const wsEndpoint = nodeUrl.replace('http', 'ws');
+    console.log('11', signedHashLockTransaction);
 
-    const listener = new Listener(wsEndpoint, WebSocket);
-    const transactionHttp = new TransactionHttp(nodeUrl);
-    const receiptHttp = new ReceiptHttp(nodeUrl);
+    const nodeUrl = 'http://api-harvest-20.eu-west-1.nemtech.network:3000';
+    console.log('12', nodeUrl);
+
+    const wsEndpoint = nodeUrl.replace('http', 'ws');
+    console.log('13', wsEndpoint);
+
+    const repositoryFactory = new RepositoryFactoryHttp(wsEndpoint, networkType, networkGenerationHash);
+    console.log('14', repositoryFactory);
+
+    const listener = repositoryFactory.createListener();
+    console.log('15', listener);
+
+    const receiptHttp = repositoryFactory.createReceiptRepository();
+    console.log('16', receiptHttp);
+
+    const transactionHttp = repositoryFactory.createTransactionRepository();
+    console.log('17', transactionHttp);
+
     const transactionService = new TransactionService(transactionHttp, receiptHttp);
+    console.log('18', transactionService);
 
     listener.open().then(() => {
       transactionService.announceHashLockAggregateBonded(signedHashLockTransaction, signedTransaction, listener).subscribe(x => {
-        console.log(x);
+        console.log('19', x);
         listener.close();
       }, err => {
-        console.error(err);
+        console.error('20', err);
         listener.close();
       });
+    }, err => {
+      console.error('21', err);
     });
 
   }
