@@ -4,7 +4,8 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/transaction">Transaction_list</router-link> |
-      <router-link to="/unapplovalTransaction">Unapploval_Transaction_list</router-link>
+      <router-link to="/unapplovalTransaction">Unapploval_Transaction_list</router-link> |
+      <router-link to="/accountInfo">Account_Info</router-link>
     </div>
     <router-view/>
   </div>

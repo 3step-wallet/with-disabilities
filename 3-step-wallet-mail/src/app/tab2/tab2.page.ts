@@ -6,6 +6,7 @@ import {
   AggregateTransaction,
   Deadline,
   HashLockTransaction,
+  Listener,
   Mosaic,
   MosaicId,
   NetworkType,
@@ -14,8 +15,9 @@ import {
   TransactionService,
   TransferTransaction,
   UInt64,
+  TransactionHttp,
+  ReceiptHttp,
 } from 'nem2-sdk';
-import {RepositoryFactoryHttp} from 'nem2-sdk/dist/src/infrastructure/RepositoryFactoryHttp';
 import { Router } from '@angular/router';
 
 @Component({
@@ -95,23 +97,27 @@ export class Tab2Page implements OnInit {
   }
 
   async sendMultisig(qrContent: any) {
-    console.log('5', this.privateKey);
-    console.log('6', qrContent.data.msg);
+    console.log(this.privateKey);
+    console.log(qrContent.data.msg);
 
     const toAddr = 'TDONBHXA6T55L7BDZ2VRECPDA54Z2NZDE7RR4CP7';
     const amount: number = qrContent.data.amount / Math.pow(10, 6);
     const message: string = qrContent.data.msg;
 
+    console.log(toAddr);
+    console.log(amount);
+    console.log(message);
+
     const networkType = NetworkType.TEST_NET;
     const cosignatoryPrivateKey = this.privateKey;
     const cosignatoryAccount = Account.createFromPrivateKey(cosignatoryPrivateKey, networkType);
 
-    console.log('7', cosignatoryAccount);
+    console.log(cosignatoryAccount);
 
     const multisigAccountPublicKey = this.publicKey;
     const multisigAccount = PublicAccount.createFromPublicKey(multisigAccountPublicKey, networkType);
 
-    console.log('8', multisigAccount);
+    console.log(multisigAccount);
 
     const recipientAddress = Address.createFromRawAddress(toAddr);
 
@@ -130,59 +136,41 @@ export class Tab2Page implements OnInit {
       Deadline.create(),
       [transferTransaction.toAggregate(multisigAccount)],
       networkType,
-      []).setMaxFee(2000);
+      ).setMaxFee(200);
 
     const networkGenerationHash = 'CC42AAD7BD45E8C276741AB2524BC30F5529AF162AD12247EF9A98D6B54A385B';
     const signedTransaction = cosignatoryAccount.sign(aggregateTransaction, networkGenerationHash);
-    console.log('9', signedTransaction.hash);
+    console.log(signedTransaction.hash);
 
     const hashLockTransaction = HashLockTransaction.create(
       Deadline.create(),
       new Mosaic (networkCurrencyMosaicId,
-        UInt64.fromUint(10 * Math.pow(10, networkCurrencyDivisibility))),
+        UInt64.fromUint(amount * Math.pow(10, networkCurrencyDivisibility))),
       UInt64.fromUint(480),
       signedTransaction,
       networkType,
       UInt64.fromUint(2000000));
 
-    console.log('10', hashLockTransaction);
-
     const signedHashLockTransaction = cosignatoryAccount.sign(hashLockTransaction, networkGenerationHash);
 
-    console.log('11', signedHashLockTransaction);
-
     const nodeUrl = 'http://api-harvest-20.eu-west-1.nemtech.network:3000';
-    console.log('12', nodeUrl);
-
     const wsEndpoint = nodeUrl.replace('http', 'ws');
-    console.log('13', wsEndpoint);
 
-    const repositoryFactory = new RepositoryFactoryHttp(wsEndpoint, networkType, networkGenerationHash);
-    console.log('14', repositoryFactory);
-
-    const listener = repositoryFactory.createListener();
-    console.log('15', listener);
-
-    const receiptHttp = repositoryFactory.createReceiptRepository();
-    console.log('16', receiptHttp);
-
-    const transactionHttp = repositoryFactory.createTransactionRepository();
-    console.log('17', transactionHttp);
-
+    const listener = new Listener(wsEndpoint, WebSocket);
+    const transactionHttp = new TransactionHttp(nodeUrl);
+    const receiptHttp = new ReceiptHttp(nodeUrl);
     const transactionService = new TransactionService(transactionHttp, receiptHttp);
-    console.log('18', transactionService);
 
     listener.open().then(() => {
       transactionService.announceHashLockAggregateBonded(signedHashLockTransaction, signedTransaction, listener).subscribe(x => {
-        console.log('19', x);
+        console.log(x);
         listener.close();
       }, err => {
-        console.error('20', err);
+        console.error(err);
         listener.close();
       });
-    }, err => {
-      console.error('21', err);
     });
+
 
   }
 

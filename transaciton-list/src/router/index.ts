@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import UnapplovalTransactionList from '../views/unapploval_transaction/unapploval_transaction_list.vue';
 import TransactionList from '../views/transaction/transaction_list.vue';
+import AccountInfo from '../views//account/account_info.vue';
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,11 @@ const routes = [
     path: '/unapplovalTransaction',
     name: 'unapplovalTransaction',
     component: UnapplovalTransactionList
+  },
+  {
+    path: '/accountInfo',
+    name: 'accountInfo',
+    component: AccountInfo
   },
   {
     path: '/about',
