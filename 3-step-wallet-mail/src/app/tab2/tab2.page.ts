@@ -41,11 +41,11 @@ export class Tab2Page implements OnInit {
   }
 
   ionViewWillEnter() {
-    if (localStorage.getItem('privateKey')) {
-      this.privateKey = localStorage.getItem('privateKey');
+    if ('privateKey' in localStorage) {
+      this.privateKey = JSON.parse(localStorage.privateKey);
     }
-    if (localStorage.getItem('publicKey')) {
-      this.publicKey = localStorage.getItem('publicKey');
+    if ('publicKey' in localStorage) {
+      this.publicKey = JSON.parse(localStorage.publicKey);
     }
    }
 
@@ -153,7 +153,7 @@ export class Tab2Page implements OnInit {
 
     const signedHashLockTransaction = cosignatoryAccount.sign(hashLockTransaction, networkGenerationHash);
 
-    const nodeUrl = 'http://api-harvest-20.eu-west-1.nemtech.network:3000';
+    const nodeUrl = 'http://api-harvest-20.ap-southeast-1.nemtech.network:3000';
     const wsEndpoint = nodeUrl.replace('http', 'ws');
 
     const listener = new Listener(wsEndpoint, WebSocket);
