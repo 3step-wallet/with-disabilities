@@ -16,7 +16,7 @@ import {
   TransferTransaction,
   UInt64,
   TransactionHttp,
-  ReceiptHttp
+  ReceiptHttp,
 } from 'nem2-sdk';
 import { Router } from '@angular/router';
 
@@ -57,11 +57,11 @@ export class Tab2Page implements OnInit {
 
           // start scanning
           const scanSub = this.qrScanner.scan().subscribe((text: string) => {
-            console.log('Scanned something', text);
+            console.log('1', text);
             if (text !== '') {
               const qrJson = JSON.parse(text);
-              console.log(text);
-              console.log(qrJson.data.msg);
+              console.log('2', text);
+              console.log('3', qrJson.data.msg);
               this.sendMultisig(qrJson);
             }
 
@@ -100,9 +100,13 @@ export class Tab2Page implements OnInit {
     console.log(this.privateKey);
     console.log(qrContent.data.msg);
 
-    const toAddr: string = qrContent.data.addr;
+    const toAddr = 'TDONBHXA6T55L7BDZ2VRECPDA54Z2NZDE7RR4CP7';
     const amount: number = qrContent.data.amount / Math.pow(10, 6);
     const message: string = qrContent.data.msg;
+
+    console.log(toAddr);
+    console.log(amount);
+    console.log(message);
 
     const networkType = NetworkType.TEST_NET;
     const cosignatoryPrivateKey = this.privateKey;
@@ -132,7 +136,7 @@ export class Tab2Page implements OnInit {
       Deadline.create(),
       [transferTransaction.toAggregate(multisigAccount)],
       networkType,
-      []).setMaxFee(200);
+      ).setMaxFee(200);
 
     const networkGenerationHash = 'CC42AAD7BD45E8C276741AB2524BC30F5529AF162AD12247EF9A98D6B54A385B';
     const signedTransaction = cosignatoryAccount.sign(aggregateTransaction, networkGenerationHash);
@@ -141,7 +145,7 @@ export class Tab2Page implements OnInit {
     const hashLockTransaction = HashLockTransaction.create(
       Deadline.create(),
       new Mosaic (networkCurrencyMosaicId,
-        UInt64.fromUint(10 * Math.pow(10, networkCurrencyDivisibility))),
+        UInt64.fromUint(amount * Math.pow(10, networkCurrencyDivisibility))),
       UInt64.fromUint(480),
       signedTransaction,
       networkType,
@@ -166,6 +170,7 @@ export class Tab2Page implements OnInit {
         listener.close();
       });
     });
+
 
   }
 
