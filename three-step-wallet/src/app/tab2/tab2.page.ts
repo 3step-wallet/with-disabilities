@@ -121,7 +121,7 @@ export class Tab2Page implements OnInit {
 
     const recipientAddress = Address.createFromRawAddress(toAddr);
 
-    const networkCurrencyMosaicId = new MosaicId('75AF035421401EF0');
+    const networkCurrencyMosaicId = new MosaicId('51A99028058245A8');
     const networkCurrencyDivisibility = 6;
 
     const transferTransaction = TransferTransaction.create(
@@ -138,22 +138,23 @@ export class Tab2Page implements OnInit {
       networkType,
       ).setMaxFee(200);
 
-    const networkGenerationHash = 'CC42AAD7BD45E8C276741AB2524BC30F5529AF162AD12247EF9A98D6B54A385B';
+    const networkGenerationHash = '45870419226A7E51D61D94AD728231EDC6C9B3086EF9255A8421A4F26870456A';
     const signedTransaction = cosignatoryAccount.sign(aggregateTransaction, networkGenerationHash);
-    console.log(signedTransaction.hash);
+    console.log(`aggregate tx: ${signedTransaction.hash}`);
 
     const hashLockTransaction = HashLockTransaction.create(
       Deadline.create(),
       new Mosaic (networkCurrencyMosaicId,
-        UInt64.fromUint(amount * Math.pow(10, networkCurrencyDivisibility))),
+        UInt64.fromUint(10 * Math.pow(10, networkCurrencyDivisibility))),
       UInt64.fromUint(480),
       signedTransaction,
       networkType,
       UInt64.fromUint(2000000));
 
     const signedHashLockTransaction = cosignatoryAccount.sign(hashLockTransaction, networkGenerationHash);
+    console.log(`hash lock tx ${signedHashLockTransaction.hash}`);
 
-    const nodeUrl = 'http://api-harvest-20.ap-southeast-1.nemtech.network:3000';
+    const nodeUrl = 'http://api-xym-3-01.ap-southeast-1.nemtech.network:3000';
     const wsEndpoint = nodeUrl.replace('http', 'ws');
 
     const listener = new Listener(wsEndpoint, WebSocket);
