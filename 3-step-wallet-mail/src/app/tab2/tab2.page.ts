@@ -42,10 +42,10 @@ export class Tab2Page implements OnInit {
 
   ionViewWillEnter() {
     if ('privateKey' in localStorage) {
-      this.privateKey = JSON.parse(localStorage.privateKey);
+      this.privateKey = localStorage.privateKey;
     }
     if ('publicKey' in localStorage) {
-      this.publicKey = JSON.parse(localStorage.publicKey);
+      this.publicKey = localStorage.publicKey;
     }
    }
 
