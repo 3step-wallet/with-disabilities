@@ -22,7 +22,9 @@ export class SendMailPage implements OnInit {
 
   ionViewWillEnter() {
    if ('phoneNumber' in localStorage) {
-     this.phoneNumber = JSON.parse(localStorage.phoneNumber);
+     if ('phoneNumber' in localStorage) {
+      this.phoneNumber = localStorage.phoneNumber;
+     }
      this.hrefNumber = 'sms:' + this.phoneNumber;
    }
   }
