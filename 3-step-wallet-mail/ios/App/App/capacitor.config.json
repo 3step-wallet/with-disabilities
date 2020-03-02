@@ -1,8 +1,0 @@
-{
-  "appId": "io.ionic.starter",
-  "appName": "3-step-wallet-mail",
-  "bundledWebRuntime": false,
-  "npmClient": "yarn",
-  "webDir": "www",
-  "cordova": {}
-}

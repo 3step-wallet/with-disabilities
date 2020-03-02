@@ -1,8 +1,17 @@
 {
-  "appId": "io.ionic.starter",
+  "appId": "jp.co.openingline.threestepm",
   "appName": "3-step-wallet-mail",
   "bundledWebRuntime": false,
   "npmClient": "yarn",
   "webDir": "www",
-  "cordova": {}
+  "cordova": {
+    "ScrollEnabled": "false",
+    "android-minSdkVersion": "19",
+    "BackupWebStorage": "none",
+    "SplashMaintainAspectRatio": "true",
+    "FadeSplashScreenDuration": "300",
+    "SplashShowOnlyFirstTime": "false",
+    "SplashScreen": "screen",
+    "SplashScreenDelay": "3000"
+  }
 }

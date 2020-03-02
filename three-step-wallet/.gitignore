@@ -29,3 +29,5 @@ npm-debug.log*
 /platforms
 /plugins
 /www
+3-step-wallet-mail/ios
+3-step-wallet-mail/android
