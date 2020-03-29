@@ -5,7 +5,7 @@
       <router-link to="/about">About</router-link> |
       <router-link to="/transaction">Transaction_list</router-link> |
       <router-link to="/unapplovalTransaction">Unapploval_Transaction_list</router-link> |
-      <router-link to="/accountInfo">Account_Info</router-link>
+      <router-link to="/accountInfo">test</router-link>
     </div>
     <router-view/>
   </div>
