@@ -138,7 +138,7 @@ export class Tab2Page implements OnInit {
       networkType,
       ).setMaxFee(200);
 
-    const networkGenerationHash = '45870419226A7E51D61D94AD728231EDC6C9B3086EF9255A8421A4F26870456A';
+    const networkGenerationHash = '44D2225B8932C9A96DCB13508CBCDFFA9A9663BFBA2354FEEC8FCFCB7E19846C';
     const signedTransaction = cosignatoryAccount.sign(aggregateTransaction, networkGenerationHash);
     console.log(`aggregate tx: ${signedTransaction.hash}`);
 
@@ -154,8 +154,9 @@ export class Tab2Page implements OnInit {
     const signedHashLockTransaction = cosignatoryAccount.sign(hashLockTransaction, networkGenerationHash);
     console.log(`hash lock tx ${signedHashLockTransaction.hash}`);
 
-    const nodeUrl = 'http://api-xym-3-01.ap-southeast-1.nemtech.network:3000';
-    const wsEndpoint = nodeUrl.replace('http', 'ws');
+    // const nodeUrl = 'http://api-xym-3-01.ap-southeast-1.nemtech.network:3000';
+    const nodeUrl = 'https://sym-test.opening-line.jp:3001/';
+    const wsEndpoint = nodeUrl.replace('https', 'ws');
 
     const listener = new Listener(wsEndpoint, WebSocket);
     const transactionHttp = new TransactionHttp(nodeUrl);
