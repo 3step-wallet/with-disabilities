@@ -101,6 +101,7 @@ export class Tab2Page implements OnInit {
     console.log(qrContent.data.msg);
 
     const toAddr = 'TDONBHXA6T55L7BDZ2VRECPDA54Z2NZDE7RR4CP7';
+    // address構築変更された。
     const amount: number = qrContent.data.amount / Math.pow(10, 6);
     const message: string = qrContent.data.msg;
 
